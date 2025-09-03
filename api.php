@@ -290,6 +290,24 @@ switch ($action) {
         json_response(['ok' => true]);
         break;
     }
+    case 'leave': {
+        $hash = $_POST['room'] ?? '';
+        $participant_id = isset($_POST['participant_id']) ? (int)$_POST['participant_id'] : 0;
+        if ($hash === '' || !$participant_id) json_response(['ok' => false, 'error' => 'missing params'], 400);
+        $room = get_room_by_hash($db, $hash);
+        if (!$room) json_response(['ok' => false, 'error' => 'room not found'], 404);
+        // ensure participant belongs to room
+        $stmt0 = $db->prepare('SELECT id FROM participants WHERE id=? AND room_id=?');
+        $stmt0->bind_param('ii', $participant_id, $room['id']);
+        $stmt0->execute();
+        if (!$stmt0->get_result()->fetch_assoc()) json_response(['ok' => false, 'error' => 'participant not in room'], 400);
+        // delete participant (votes cascade via FK)
+        $stmt = $db->prepare('DELETE FROM participants WHERE id=? AND room_id=?');
+        $stmt->bind_param('ii', $participant_id, $room['id']);
+        $stmt->execute();
+        json_response(['ok' => true]);
+        break;
+    }
     default:
         json_response(['ok' => false, 'error' => 'unknown action'], 400);
 }

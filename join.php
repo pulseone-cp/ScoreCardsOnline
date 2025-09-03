@@ -99,6 +99,7 @@ $defaultName = random_funny_name();
           <div class="small text-muted">Current lap</div>
           <div class="fw-bold" id="lap">0</div>
         </div>
+        <a id="leaveLink" href="#" class="small text-danger ms-2" title="Leave this room">Leave room</a>
       </div>
       <div id="waiting" class="alert alert-info py-2 d-none">Waiting for the moderator to start the round…</div>
       <div id="paused" class="alert alert-warning py-2 d-none">Voting is paused by the moderator.</div>
@@ -215,6 +216,27 @@ function vote(value){
   });
 }
 
+function clearIdentity(){
+  try { localStorage.removeItem(storageKey('participant')); } catch(e){}
+  try { localStorage.removeItem(storageKey('name')); } catch(e){}
+  try { sessionStorage.removeItem(storageKey('prev_lap')); } catch(e){}
+  participantId = 0;
+  myName = '';
+}
+
+function doLeave(){
+  const finish = function(){
+    clearIdentity();
+    window.location.href = 'index.php';
+  };
+  if (participantId) {
+    $.post('api.php?action=leave', {room, participant_id: participantId})
+      .always(finish);
+  } else {
+    finish();
+  }
+}
+
 function doJoin(){
   myName = $('#name').val().trim();
   if (myName === '') { alert('Please enter a name'); return; }
@@ -240,6 +262,7 @@ $(function(){
   if (myName) $('#name').val(myName);
 
   $('#joinBtn').on('click', doJoin);
+  $('#leaveLink').on('click', function(e){ e.preventDefault(); doLeave(); });
 
   refresh();
   setInterval(refresh, 2000);

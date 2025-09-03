@@ -10,15 +10,45 @@ function random_mod_hash(): string {
 }
 
 function random_room_name(): string {
-    $adjectives = ['Brave', 'Cosmic', 'Fuzzy', 'Mighty', 'Silent', 'Swift', 'Witty', 'Zany', 'Quirky', 'Lucky'];
-    $nouns = ['Panda', 'Falcon', 'Otter', 'Tiger', 'Llama', 'Badger', 'Koala', 'Dragon', 'Phoenix', 'Narwhal'];
+    // Themed by comic/cartoon/superhero worlds and locations
+    // Adjectives act as world/franchise/location qualifiers, nouns are landmarks/places
+    $adjectives = [
+        // Batman/DC
+        'Gotham', 'Arkham', 'Wayne', 'Bat', 'Metropolis', 'Krypton', 'DailyPlanet',
+        // Marvel
+        'Avengers', 'Stark', 'Asgardian', 'Wakandan', 'Xavier', 'Mutant', 'Spider', 'SHIELD', 'Hydra',
+        // SpongeBob
+        'BikiniBottom', 'Krusty', 'Chum', 'RockBottom', 'Jellyfish', 'Pineapple',
+        // General/other toons
+        'Marvel', 'DC', 'Toon', 'Cartoon', 'Cosmic', 'Galactic'
+    ];
+    $nouns = [
+        // Generic places
+        'Alley', 'Cave', 'Mansion', 'Tower', 'Sanctum', 'Lab', 'Bridge', 'Docks', 'Pier', 'Street', 'Boulevard', 'Hideout', 'HQ', 'Fortress', 'Castle',
+        // Batman/DC spots
+        'Batcave', 'WayneManor', 'HallOfJustice', 'DailyPlanet',
+        // Marvel spots
+        'AvengersTower', 'SanctumSanctorum', 'Helicarrier', 'Asgard', 'Wakanda', 'XavierSchool', 'DailyBugle',
+        // SpongeBob spots
+        'Pineapple', 'KrustyKrab', 'ChumBucket', 'Lagoon', 'GloveWorld', 'JellyfishFields'
+    ];
     return $adjectives[array_rand($adjectives)] . ' ' . $nouns[array_rand($nouns)];
 }
 
 function random_funny_name(): string {
-    $cartoons = ['SpongeBob', 'DarthMaul', 'DarkKnight', 'RickSanchez', 'Morty', 'Bender', 'Homer', 'Marge', 'Bart', 'Lisa', 'Mickey', 'Goofy', 'BugsBunny', 'DaffyDuck', 'Scooby', 'Shaggy', 'Pikachu', 'AshKetchum', 'Goku', 'Vegeta'];
+    // Character names aligned with the themed room franchises (Batman/DC, Marvel, SpongeBob)
+    $characters = [
+        // Batman/DC
+        'Batman','Robin','Nightwing','Batgirl','Alfred','CommissionerGordon','Joker','HarleyQuinn','Catwoman','Riddler','Penguin','TwoFace','Bane','PoisonIvy','Scarecrow',
+        'Superman','WonderWoman','Flash','Aquaman','GreenLantern','Cyborg',
+        // Marvel (Avengers, X-Men, Guardians)
+        'IronMan','CaptainAmerica','Thor','Hulk','BlackWidow','Hawkeye','SpiderMan','BlackPanther','DoctorStrange','ScarletWitch','Vision','AntMan','Wasp','Falcon','WinterSoldier',
+        'StarLord','Gamora','Drax','Rocket','Groot','Loki','NickFury','Deadpool','Wolverine','Storm','Cyclops','ProfessorX','Rogue','Beast','Magneto',
+        // SpongeBob
+        'SpongeBob','Patrick','Squidward','SandyCheeks','MrKrabs','Plankton','GarySnail','Pearl','MrsPuff','LarryLobster','MermaidMan','BarnacleBoy'
+    ];
     $num = random_int(10, 999);
-    return $cartoons[array_rand($cartoons)] . $num;
+    return $characters[array_rand($characters)] . $num;
 }
 
 function fixed_card_colors(): array {
